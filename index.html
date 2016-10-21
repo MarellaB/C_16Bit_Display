@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C-Class 8-Bit Display</title>
+    <style media="screen">
+      body {
+        background-color: #222;
+        color: #fff;
+        text-align: center;
+        width: 640px;
+        margin: auto;
+      }
+      ul {
+        list-style: none;
+      }
+      canvas {
+        background-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>8-Bit Display</h1>
+    <canvas id="display" width="640" height="640">
+      Please change or update your browser :)
+      <br />
+      Chrome is recommended
+    </canvas>
+    <p>
+      This is simply for you to test out what lights look like what.<br /><br />
+      It is a 16x16 light screen, I dont EXPECT anyone to want letters larger
+        than that.<br /><br />
+      This will not tell you how to do it, simply let you see what it looks like
+        when the selected lights are lit up, to allow easier planning.<br /><br />
+      To use, simply click on the specific light you would like to enable.<br />
+      <ul>
+        <li style="text-align:center">KEY:</li>
+        <li>RED   - Active light</li>
+        <li>BLACK - Inactive light</li>
+      </ul>
+    </p>
+    <script charset="utf-8">
+      var canvas = document.getElementById('display');
+      var ctx = canvas.getContext('2d');
+      var lightCount = 16;
+      var lights = Array(lightCount);
+      var lightSize = canvas.width/lightCount;
+
+      for (var x=0; x<16; x++) {
+        lights[x] = new Array(lightCount);
+      }
+
+      for (var x=0; x<16; x++) {
+        for (var y=0; y<16; y++) {
+          lights[x][y] = 0;
+        }
+      }
+
+      function draw() {
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (var x=0; x<16; x++) {
+          for (var y=0; y<16; y++) {
+            ctx.fillStyle = lights[x][y] == 1 ? '#f00' : '#000';
+            ctx.fillRect(x*lightSize, y*lightSize, lightSize, lightSize);
+          }
+        }
+        for (var x=0; x<=16; x++) {
+          ctx.strokeStyle = '#fff';
+          ctx.beginPath();
+          ctx.moveTo(x*lightSize, 0);
+          ctx.lineTo(x*lightSize, canvas.height);
+          ctx.stroke();
+        }
+        for (var y=0; y<=16; y++) {
+          ctx.strokeStyle = '#fff';
+          ctx.beginPath();
+          ctx.moveTo(0, y*lightSize);
+          ctx.lineTo(canvas.width, y*lightSize);
+          ctx.stroke();
+        }
+      }
+
+      for (var x=0; x<16; x++) {
+        for (var y=0; y<16; y++) {
+          ctx.fillStyle = lights[x][y] == 1 ? '#f00' : '#000';
+          ctx.fillRect(lightSize, lightSize, x*lightSize, y*lightSize);
+        }
+      }
+
+      draw();
+
+      canvas.addEventListener('mousedown', function(evt) {
+        var mouseX = Math.floor((evt.clientX-canvas.getBoundingClientRect().left)/lightSize);
+        var mouseY = Math.floor((evt.clientY-canvas.getBoundingClientRect().top-0.125)/lightSize);
+        lights[mouseX][mouseY] = lights[mouseX][mouseY] == 1 ? 0 : 1;
+        draw();
+      }, false);
+    </script>
+  </body>
+</html>
