@@ -1,2 +1,2 @@
-# C_8Bit_Display
-8Bit display for Lakeland C class.
+# C_16Bit_Display
+16Bit display for Lakeland C class.
