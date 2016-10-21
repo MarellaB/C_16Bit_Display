@@ -27,6 +27,7 @@
       <br />
       Chrome is recommended
     </canvas>
+    <button type="button" name="Button" onclick="clearAll()">Clear Screen</button>
     <p>
       This is simply for you to test out what lights look like what.<br /><br />
       It is a 16x16 light screen, I dont EXPECT anyone to want letters larger
@@ -51,11 +52,15 @@
         lights[x] = new Array(lightCount);
       }
 
-      for (var x=0; x<16; x++) {
-        for (var y=0; y<16; y++) {
-          lights[x][y] = 0;
+      function clearAll() {
+        for (var x=0; x<16; x++) {
+          for (var y=0; y<16; y++) {
+            lights[x][y] = 0;
+          }
         }
+        draw();
       }
+      clearAll();
 
       function draw() {
         ctx.fillStyle = '#000';
