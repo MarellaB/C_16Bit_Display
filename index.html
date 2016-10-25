@@ -39,17 +39,17 @@
     <script charset="utf-8">
       var canvas = document.getElementById('display');
       var ctx = canvas.getContext('2d');
-      var lightCount = 16;
+      var lightCount = 32;
       var lights = Array(lightCount);
       var lightSize = canvas.width/lightCount;
 
-      for (var x=0; x<16; x++) {
+      for (var x=0; x<lightCount; x++) {
         lights[x] = new Array(lightCount);
       }
 
       function clearAll() {
-        for (var x=0; x<16; x++) {
-          for (var y=0; y<16; y++) {
+        for (var x=0; x<lightCount; x++) {
+          for (var y=0; y<lightCount; y++) {
             lights[x][y] = 0;
           }
         }
@@ -60,20 +60,20 @@
       function draw() {
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        for (var x=0; x<16; x++) {
-          for (var y=0; y<16; y++) {
+        for (var x=0; x<lightCount; x++) {
+          for (var y=0; y<lightCount; y++) {
             ctx.fillStyle = lights[x][y] == 1 ? '#f00' : '#000';
             ctx.fillRect(x*lightSize, y*lightSize, lightSize, lightSize);
           }
         }
-        for (var x=0; x<=16; x++) {
+        for (var x=0; x<=lightCount; x++) {
           ctx.strokeStyle = '#fff';
           ctx.beginPath();
           ctx.moveTo(x*lightSize, 0);
           ctx.lineTo(x*lightSize, canvas.height);
           ctx.stroke();
         }
-        for (var y=0; y<=16; y++) {
+        for (var y=0; y<=lightCount; y++) {
           ctx.strokeStyle = '#fff';
           ctx.beginPath();
           ctx.moveTo(0, y*lightSize);
@@ -82,8 +82,8 @@
         }
       }
 
-      for (var x=0; x<16; x++) {
-        for (var y=0; y<16; y++) {
+      for (var x=0; x<lightCount; x++) {
+        for (var y=0; y<lightCount; y++) {
           ctx.fillStyle = lights[x][y] == 1 ? '#f00' : '#000';
           ctx.fillRect(lightSize, lightSize, x*lightSize, y*lightSize);
         }
