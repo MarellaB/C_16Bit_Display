@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>C-Class 16-Bit Display</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
     <style media="screen">
       body {
         background-color: #222;
@@ -11,12 +12,20 @@
         text-align: center;
         width: 640px;
         margin: auto;
+        font-family: 'Roboto', sans-serif;
       }
       ul {
         list-style: none;
       }
       canvas {
         background-color: #000;
+      }
+      button {
+        display: inline-block;
+        float: left;
+      }
+      button:nth-child(odd) {
+        float: right;
       }
     </style>
   </head>
@@ -28,13 +37,16 @@
       Chrome is recommended
     </canvas>
     <button type="button" name="Button" onclick="clearAll()">Clear Screen</button>
+    <button type="button" name="Button" onclick="print()">print</button>
     <p>
       This is simply for you to test out what lights look like what.<br /><br />
       It is a 16x16 light screen, I dont EXPECT anyone to want letters larger
         than that.<br /><br />
-      This will not tell you how to do it, simply let you see what it looks like
-        when the selected lights are lit up, to allow easier planning.<br /><br />
       To use, simply click on the specific light you would like to enable.
+    </p>
+    <h2>OUTPUT</h2>
+    <p id="OUTPUT">
+
     </p>
     <script charset="utf-8">
       var canvas = document.getElementById('display');
@@ -42,6 +54,43 @@
       var lightCount = 16;
       var lights = Array(lightCount);
       var lightSize = canvas.width/lightCount;
+      var output = document.getElementById('OUTPUT');
+      var temp = [];
+      var personal = false;
+
+      function outputHex(x, y) {
+        y = y << 8;
+        x = x | y;
+        printOutput = x.toString(16);
+        if (printOutput.length == 3) {
+          temp.push("0x0" + printOutput);
+        } else {
+          temp.push("0x000" + printOutput);
+        }
+        output.innerHTML = temp.toString().replace(/,/g,';<br />') + ';';
+      }
+
+      function outputPersonal(x, y) {
+        temp.push('DOT_MATRIX[' + x + '][' + y + '] = 1');
+        output.innerHTML = temp.toString().replace(/,/g,';<br />') + ';';
+      }
+
+      function print() {
+        output.innerHTML = "";
+        temp = [];
+        for (var x in lights) {
+          for (var y in lights[x]) {
+            if (lights[x][y] == 1) {
+              if (!personal) {
+                outputHex(x, y);
+              } else {
+                outputPersonal(x, y);
+              }
+            }
+          }
+        }
+        return true;
+      }
 
       for (var x=0; x<lightCount; x++) {
         lights[x] = new Array(lightCount);
