@@ -20,12 +20,10 @@
       canvas {
         background-color: #000;
       }
-      button {
+      p {
+        width: 280px;
         display: inline-block;
-        float: left;
-      }
-      button:nth-child(odd) {
-        float: right;
+        vertical-align: top;
       }
     </style>
   </head>
@@ -36,18 +34,14 @@
       <br />
       Chrome is recommended
     </canvas>
-    <button type="button" name="Button" onclick="clearAll()">Clear Screen</button>
-    <button type="button" name="Button" onclick="print()">print</button>
     <p>
-      This is simply for you to test out what lights look like what.<br /><br />
       It is a 16x16 light screen, I dont EXPECT anyone to want letters larger
         than that.<br /><br />
-      To use, simply click on the specific light you would like to enable.
+      To use, simply click on the specific light you would like to enable.<br />
+      <button type="button" name="Button" onclick="clearAll()">Clear Screen</button>
+      <button type="button" name="Button" onclick="print()">print</button>
     </p>
-    <h2>OUTPUT</h2>
-    <p id="OUTPUT">
-
-    </p>
+    <p id="OUTPUT"></p>
     <script charset="utf-8">
       var canvas = document.getElementById('display');
       var ctx = canvas.getContext('2d');
@@ -63,11 +57,11 @@
         x = x | y;
         printOutput = x.toString(16);
         if (printOutput.length == 3) {
-          temp.push("0x0" + printOutput);
+          temp.push("LccOutport(0x0" + printOutput + '% 1)');
         } else {
-          temp.push("0x000" + printOutput);
+          temp.push("LccOutport(0x000" + printOutput + '% 1)');
         }
-        output.innerHTML = temp.toString().replace(/,/g,';<br />') + ';';
+        output.innerHTML = temp.toString().replace(/,/g,';<br />').replace(/%/g, ',') + ';';
       }
 
       function outputPersonal(x, y) {
@@ -81,11 +75,10 @@
         for (var x in lights) {
           for (var y in lights[x]) {
             if (lights[x][y] == 1) {
-              if (!personal) {
+              if (!personal)
                 outputHex(x, y);
-              } else {
+              else
                 outputPersonal(x, y);
-              }
             }
           }
         }
