@@ -39,7 +39,7 @@
         than that.<br /><br />
       To use, simply click on the specific light you would like to enable.<br />
       <button type="button" name="Button" onclick="clearAll()">Clear Screen</button>
-      <button type="button" name="Button" onclick="print()">print</button>
+      <button type="button" name="Button" onclick="print()">Print</button>
     </p>
     <p id="OUTPUT"></p>
     <script charset="utf-8">
@@ -57,9 +57,9 @@
         x = x | y;
         printOutput = x.toString(16);
         if (printOutput.length == 3) {
-          temp.push("LccOutport(0x0" + printOutput + '% 1)');
+          temp.push("LccOutport(0x4" + printOutput + '% 1)');
         } else {
-          temp.push("LccOutport(0x000" + printOutput + '% 1)');
+          temp.push("LccOutport(0x410" + printOutput + '% 1)');
         }
         output.innerHTML = temp.toString().replace(/,/g,';<br />').replace(/%/g, ',') + ';';
       }
@@ -74,7 +74,7 @@
         temp = [];
         for (var x in lights) {
           for (var y in lights[x]) {
-            if (lights[x][y] == 1) {
+            if (lights[x][y+1] == 1) {
               if (!personal)
                 outputHex(x, y);
               else
