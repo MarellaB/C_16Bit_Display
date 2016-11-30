@@ -74,9 +74,9 @@
         temp = [];
         for (var x in lights) {
           for (var y in lights[x]) {
-            if (lights[x][y+1] == 1) {
+            if (lights[x][y] == 1) {
               if (!personal)
-                outputHex(x, y);
+                outputHex(x, y+1);
               else
                 outputPersonal(x, y);
             }
